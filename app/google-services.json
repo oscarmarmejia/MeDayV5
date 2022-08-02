@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1091115346955",
+    "project_id": "medayv5",
+    "storage_bucket": "medayv5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091115346955:android:3515a3cf04101917b96b0e",
+        "android_client_info": {
+          "package_name": "mejia.oscar.medayv5"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091115346955-fg49n2bp75pb8so91ir62370c48lb0cu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB37mGiFQRzbWdZJGQzhuRDJ0PgCxOHG1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091115346955-fg49n2bp75pb8so91ir62370c48lb0cu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
