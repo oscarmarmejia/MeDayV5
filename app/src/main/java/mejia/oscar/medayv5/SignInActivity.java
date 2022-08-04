@@ -161,8 +161,9 @@ salir.setOnClickListener(new View.OnClickListener() {
                     if(ds.child("id").getValue().equals(maildata)){
 
 
-ReferenceUser.child(String.valueOf(maxid+1)).child("nombre").setValue(maildata);
-ReferenceUser.child(String.valueOf(maxid+1)).setValue(ds.getValue());
+
+//ReferenceUser.child(String.valueOf(maxid+1)).child("nombre").setValue(maildata);
+//ReferenceUser.child(String.valueOf(maxid+1)).setValue(ds.getValue());
 
 
 
@@ -185,7 +186,7 @@ ReferenceUser.child(String.valueOf(maxid+1)).setValue(ds.getValue());
 
 
 
-        ReferenceUser.child(String.valueOf(maxid + 1)).setValue(usuariosnet);
+   //     ReferenceUser.child(String.valueOf(maxid + 1)).setValue(usuariosnet);
         
 int d = maxid+1;
 
