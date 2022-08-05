@@ -186,7 +186,7 @@ salir.setOnClickListener(new View.OnClickListener() {
 
 
 
-   //     ReferenceUser.child(String.valueOf(maxid + 1)).setValue(usuariosnet);
+      ReferenceUser.child(String.valueOf(maxid + 1)).setValue(usuariosnet);
         
 int d = maxid+1;
 

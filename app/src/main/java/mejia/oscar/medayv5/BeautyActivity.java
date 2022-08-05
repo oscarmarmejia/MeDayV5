@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,14 +63,14 @@ public class BeautyActivity extends AppCompatActivity {
         gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this, gso);
 
-        ReferenceUser = FirebaseDatabase.getInstance().getReference().child("Users");
+
 
         Intent intent3 = getIntent();
 
 int hola = intent3.getIntExtra("key", 1);
 
         ProductsRef = FirebaseDatabase.getInstance().getReference().child( "Beauty" );
-
+        ReferenceUser = FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(hola));
 
 
 
@@ -119,7 +120,7 @@ test = FirebaseDatabase.getInstance().getReference().child("Test");
         ClientRef0 = FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(hola)).child( "Beauty" ).child("0");
         ClientImage = FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(hola)).child( "Beauty" ).child("image");
         ClientLike = FirebaseDatabase.getInstance().getReference().child("User").child(String.valueOf(hola)).child( "Beauty" ).child("like");
-/*
+
         ClientRef0.child("like").setValue("no");
         ClientRef0.child("image").setValue("https://firebasestorage.googleapis.com/v0/b/tamalapp42.appspot.com/o/Product%20Images%2Fimage%3A45127Jun%2022%2C%20202200%3A44%3A06%20AM.jpg?alt=media&token=f44d9a67-ec93-43d3-9874-ced4ca253edf");
         ClientRef1.child("like").setValue("no");
@@ -128,20 +129,12 @@ test = FirebaseDatabase.getInstance().getReference().child("Test");
         ClientRef2.child("image").setValue("https://firebasestorage.googleapis.com/v0/b/tamalapp42.appspot.com/o/Product%20Images%2Fimage%3A45127Jun%2022%2C%20202200%3A44%3A06%20AM.jpg?alt=media&token=f44d9a67-ec93-43d3-9874-ced4ca253edf");
         ClientRef3.child("like").setValue("no");
         ClientRef3.child("image").setValue("https://firebasestorage.googleapis.com/v0/b/tamalapp42.appspot.com/o/Product%20Images%2Fimage%3A45127Jun%2022%2C%20202200%3A44%3A06%20AM.jpg?alt=media&token=f44d9a67-ec93-43d3-9874-ced4ca253edf");
-*/
-
-    }
+        Client.child("nombre").setValue("none");
 
 
 
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-
-
+/*
         ReferenceUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -161,24 +154,22 @@ test = FirebaseDatabase.getInstance().getReference().child("Test");
 
         ReferenceUser.addListenerForSingleValueEvent(new ValueEventListener() {
 
-            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(BeautyActivity.this);
-            Users usuariosnet = new Users();
-            String mailComparison = account.getEmail();
+                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(BeautyActivity.this);
+                Users usuariosnet = new Users();
+                String mailComparison = account.getEmail();
 
-            final String maildata = account.getEmail();
+                final String maildata = account.getEmail();
 
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds :  snapshot.getChildren())
                 {
-                    if(ds.child("id").getValue().equals(maildata)){
-                       // Toast.makeText(BeautyActivity.this, "Existe", Toast.LENGTH_SHORT).show();
-                     //   ClientRef0.child("like").setValue(ds.child("like"));
-                        Client.setValue(ds.getValue());
-                        ClientRef0.child("like").setValue("no");
-                        ClientRef0.child("image").setValue("https://firebasestorage.googleapis.com/v0/b/tamalapp42.appspot.com/o/Product%20Images%2Fimage%3A45127Jun%2022%2C%20202200%3A44%3A06%20AM.jpg?alt=media&token=f44d9a67-ec93-43d3-9874-ced4ca253edf");
-test.setValue(ds.getValue());
+                    if(ds.child("name").getValue().equals(maildata)){
+                        Toast.makeText(BeautyActivity.this, "Existe", Toast.LENGTH_SHORT).show();
+                        test.setValue(ds.getValue());
+
+
 
                     }
 
@@ -196,13 +187,43 @@ test.setValue(ds.getValue());
 
             }
         });
+*/
+    }
 
 
 
 
 
+    @Override
+    protected void onStart() {
 
 
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        Users usuariosnet = new Users();
+        String mailComparison = account.getEmail();
+        Toast.makeText(this, mailComparison, Toast.LENGTH_SHORT).show();
+        String maildata = account.getEmail();
+
+        ReferenceUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+          for(DataSnapshot dss :  snapshot.getChildren())
+          {
+           //   if(dss.child("nombre").getValue().equals(maildata)){
+
+                 // ReferenceUser.child(String.valueOf(maxid+1)).setValue(dss.getValue());
+          //    }
+
+          }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        super.onStart();
 
 
         FirebaseRecyclerOptions<Products> options =
@@ -274,12 +295,14 @@ test.setValue(ds.getValue());
                                     case "yes":
                                        // ProductsRef.child(String.valueOf(position)).child("like").setValue("no");
                                         ClientRef.child(String.valueOf(position)).child("like").setValue("no");
+                                        Client.child("nombre").setValue(maildata);
                                         Toast.makeText(BeautyActivity.this, "You don't like it", Toast.LENGTH_SHORT).show();
                                         holder.botonLike.setText("no");
                                         break;
                                     case "no":
                                        // ProductsRef.child(String.valueOf(position)).child("like").setValue("yes");
                                        ClientRef.child(String.valueOf(position)).child("like").setValue("yes");
+                                        Client.child("nombre").setValue(maildata);
                                         Toast.makeText(BeautyActivity.this, "You like it", Toast.LENGTH_SHORT).show();
                                         holder.botonLike.setText("yes");
                                         break;
