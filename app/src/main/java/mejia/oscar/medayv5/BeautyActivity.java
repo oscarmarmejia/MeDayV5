@@ -15,6 +15,7 @@ import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -41,7 +42,7 @@ import mejia.oscar.medayv5.Model.Users;
 import mejia.oscar.medayv5.ViewHolder.ProductViewHolder;
 
 public class BeautyActivity extends AppCompatActivity {
-    private DatabaseReference ProductsRef, ClientRef, ReferenceUser, ClientImage, ClientLike, ClientRef0, ClientRef1,ClientRef2,ClientRef3, Client, test;
+    private DatabaseReference ProductsRef, ClientRef, ReferenceUser, ClientImage, ClientLike, ClientRef0, ClientRef1,ClientRef2,ClientRef3, Client, Cuenta, Cliente22;
     private RecyclerView recyclerView;
     private ImageButton botonliked;
     private DatabaseReference mDatabaseReference, dealReference;
@@ -53,6 +54,7 @@ public class BeautyActivity extends AppCompatActivity {
     private DatabaseReference userRef;//prueba
     private static final String USER = "users";//prueba
     int maxid;
+    Button botonllenar;
 
 
     @Override
@@ -63,14 +65,43 @@ public class BeautyActivity extends AppCompatActivity {
         gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this, gso);
 
+        Cuenta = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        Cuenta.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    maxid2 = (int)snapshot.getChildrenCount();
+
+                       //Toast.makeText(BeautyActivity.this, "cuenta " + maxid2 , Toast.LENGTH_SHORT).show();
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
 
         Intent intent3 = getIntent();
+        int hola = intent3.getIntExtra("key", 1);
+       //int hola2 = hola;
 
-int hola = intent3.getIntExtra("key", 1);
+
+
+
+
+
+
+
 
         ProductsRef = FirebaseDatabase.getInstance().getReference().child( "Beauty" );
-        ReferenceUser = FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(hola));
+      //  ReferenceUser = FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(hola));
 
 
 
@@ -95,6 +126,10 @@ int hola = intent3.getIntExtra("key", 1);
         } );
 
 
+      //  botonllenar = findViewById(R.id.botonllenar);
+
+
+       //////////////////////////////////////
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         recyclerView = findViewById( R.id.recycle_menu );
         recyclerView.setHasFixedSize( true );
@@ -107,11 +142,19 @@ int hola = intent3.getIntExtra("key", 1);
         String mailComparison = account.getEmail();
         Toast.makeText(this, mailComparison, Toast.LENGTH_SHORT).show();
          String maildata = account.getEmail();
+        Toast.makeText(this, "cuenta "+ maxid2, Toast.LENGTH_SHORT).show();
+//test = FirebaseDatabase.getInstance().getReference().child("Test");
+        Client = FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(hola +1));
 
-test = FirebaseDatabase.getInstance().getReference().child("Test");
-        Client = FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(hola));
+        Cliente22 = FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(hola ));
 
-        ClientRef = FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(hola)).child( "Beauty" );
+        ClientRef = FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(hola +1   )).child( "Beauty" );
+
+
+
+        /*
+
+
         ClientRef0 = FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(hola)).child( "Beauty" ).child("0");
         ClientRef1 = FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(hola)).child( "Beauty" ).child("1");
         ClientRef2 = FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(hola)).child( "Beauty" ).child("2");
@@ -130,7 +173,7 @@ test = FirebaseDatabase.getInstance().getReference().child("Test");
         ClientRef3.child("like").setValue("no");
         ClientRef3.child("image").setValue("https://firebasestorage.googleapis.com/v0/b/tamalapp42.appspot.com/o/Product%20Images%2Fimage%3A45127Jun%2022%2C%20202200%3A44%3A06%20AM.jpg?alt=media&token=f44d9a67-ec93-43d3-9874-ced4ca253edf");
         Client.child("nombre").setValue("none");
-
+*/
 
 
 
@@ -198,34 +241,18 @@ test = FirebaseDatabase.getInstance().getReference().child("Test");
     protected void onStart() {
 
 
+
+
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         Users usuariosnet = new Users();
         String mailComparison = account.getEmail();
         Toast.makeText(this, mailComparison, Toast.LENGTH_SHORT).show();
         String maildata = account.getEmail();
 
-        ReferenceUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-          for(DataSnapshot dss :  snapshot.getChildren())
-          {
-           //   if(dss.child("nombre").getValue().equals(maildata)){
 
-                 // ReferenceUser.child(String.valueOf(maxid+1)).setValue(dss.getValue());
-          //    }
-
-          }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         super.onStart();
 
-
+      //  Cliente22.child("nombre").setValue(maildata);
         FirebaseRecyclerOptions<Products> options =
                 new FirebaseRecyclerOptions.Builder<Products>()
                         .setQuery( ClientRef, Products.class )

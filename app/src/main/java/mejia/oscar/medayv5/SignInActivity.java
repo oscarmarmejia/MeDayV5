@@ -34,9 +34,10 @@ import mejia.oscar.medayv5.Model.Users;
 
 public class SignInActivity extends AppCompatActivity {
 //private FirebaseDatabase database;
-private DatabaseReference userRef, ReferenceUser, ReferenceBeauty;
+private DatabaseReference userRef, ReferenceUser, ReferenceBeauty, ReferenceTest;
 SignInButton entrada;
     int maxid = 0;
+    int d=0;
     Button salir;
 //private static final String USERS ="USERS";
     GoogleSignInOptions gso;
@@ -46,7 +47,9 @@ SignInButton entrada;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ReferenceUser = FirebaseDatabase.getInstance().getReference().child("Users");
+        ReferenceTest = FirebaseDatabase.getInstance().getReference().child("test");
         ReferenceBeauty = FirebaseDatabase.getInstance().getReference().child("Beauty");
+
       entrada = findViewById(R.id.button_sign_in);
        // database = FirebaseDatabase.getInstance();
        // userRef = database.getReference(USERS);
@@ -55,12 +58,14 @@ SignInButton entrada;
 
 salir = findViewById(R.id.button_out);
 
+
 salir.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
         gsc.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                //ReferenceTest.child("test").setValue("test");
                 finish();
                 startActivity(new Intent(getApplicationContext(), SignInActivity.class));
             }
@@ -74,7 +79,7 @@ salir.setOnClickListener(new View.OnClickListener() {
                 if(dataSnapshot.exists()){
                     maxid = (int)dataSnapshot.getChildrenCount();
 
-                    //Toast.makeText(SignInActivity.this, "cuenta " + maxid , Toast.LENGTH_SHORT).show();
+                //    Toast.makeText(SignInActivity.this, "cuenta " + maxid , Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -94,24 +99,6 @@ salir.setOnClickListener(new View.OnClickListener() {
                 SignIn();
             }
         });
-
-        /*
-        userRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds  : snapshot.getChildren()){
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-*/
-
-
 
     }
 
@@ -143,28 +130,56 @@ salir.setOnClickListener(new View.OnClickListener() {
 
     private void Activity() {
         //finish();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        Users usuariosnet = new Users();
-        String mailComparison = account.getEmail();
-
-        final String maildata = account.getEmail();
-        usuariosnet.setId(mailComparison);
-        int a = maxid;
-        int k = 0;
-        int v = 0;
-   //     ReferenceUser.child(String.valueOf(maxid + 1)).setValue(usuariosnet);
-        ReferenceUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds :  snapshot.getChildren())
-                {
-                    if(ds.child("id").getValue().equals(maildata)){
 
 
+            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+            Users usuariosnet = new Users();
+            String mailComparison = account.getEmail();
 
+            final String maildata = account.getEmail();
+            usuariosnet.setId(mailComparison);
+            int a = maxid;
+            int k = 0;
+            int v = 0;
+
+            ReferenceUser.child(String.valueOf(maxid + 1)).setValue(usuariosnet);
+            //   ReferenceUser.child(String.valueOf(maxid + 1)).setValue(usuariosnet);
+            ReferenceUser.child(String.valueOf(maxid + 1)).child("Beauty").child("0").child("like").setValue("no");
+            ;
+            ReferenceUser.child(String.valueOf(maxid + 1)).child("Beauty").child("0").child("image").setValue("https://firebasestorage.googleapis.com/v0/b/tamalapp42.appspot.com/o/Product%20Images%2Fimage%3A45127Jun%2022%2C%20202200%3A44%3A06%20AM.jpg?alt=media&token=f44d9a67-ec93-43d3-9874-ced4ca253edf");
+
+            ReferenceUser.child(String.valueOf(maxid + 1)).child("Beauty").child("1").child("like").setValue("no");
+            ;
+            ReferenceUser.child(String.valueOf(maxid + 1)).child("Beauty").child("1").child("image").setValue("https://firebasestorage.googleapis.com/v0/b/tamalapp42.appspot.com/o/Product%20Images%2Fimage%3A45127Jun%2022%2C%20202200%3A44%3A06%20AM.jpg?alt=media&token=f44d9a67-ec93-43d3-9874-ced4ca253edf");
+
+            ReferenceUser.child(String.valueOf(maxid + 1)).child("Beauty").child("2").child("like").setValue("no");
+            ;
+            ReferenceUser.child(String.valueOf(maxid + 1)).child("Beauty").child("2").child("image").setValue("https://firebasestorage.googleapis.com/v0/b/tamalapp42.appspot.com/o/Product%20Images%2Fimage%3A45127Jun%2022%2C%20202200%3A44%3A06%20AM.jpg?alt=media&token=f44d9a67-ec93-43d3-9874-ced4ca253edf");
+
+            ReferenceUser.child(String.valueOf(maxid + 1)).child("Beauty").child("3").child("like").setValue("no");
+            ;
+            ReferenceUser.child(String.valueOf(maxid + 1)).child("Beauty").child("3").child("image").setValue("https://firebasestorage.googleapis.com/v0/b/tamalapp42.appspot.com/o/Product%20Images%2Fimage%3A45127Jun%2022%2C%20202200%3A44%3A06%20AM.jpg?alt=media&token=f44d9a67-ec93-43d3-9874-ced4ca253edf");
+
+            ReferenceUser.child(String.valueOf(maxid + 1)).child("nombre").setValue("hola");
+            //     ReferenceUser.child(String.valueOf(maxid + 1)).setValue(usuariosnet);
+
+            d = maxid + 1;
+
+
+
+            ReferenceUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        if (ds.child("nombre").getValue().equals(maildata)) {
+
+                            ReferenceUser.child(String.valueOf(maxid + 1)).setValue(ds.getValue());
+                            // d = maxid+2;
 //ReferenceUser.child(String.valueOf(maxid+1)).child("nombre").setValue(maildata);
 //ReferenceUser.child(String.valueOf(maxid+1)).setValue(ds.getValue());
 
+
+                        }
 
 
                     }
@@ -172,23 +187,18 @@ salir.setOnClickListener(new View.OnClickListener() {
 
                 }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
 
 
+//ReferenceUser.child("hola").setValue("hola");
 
+            //Toast.makeText(this, "prueba", Toast.LENGTH_SHORT).show();
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-
-      ReferenceUser.child(String.valueOf(maxid + 1)).setValue(usuariosnet);
-        
-int d = maxid+1;
+            ReferenceUser.child(String.valueOf(maxid + 1)).child("nombre").setValue(maildata);
 
 
 
